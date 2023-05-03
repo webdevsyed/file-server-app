@@ -8,7 +8,7 @@ const LoginPage = () => {
     const {setUserData} = useContext(UserContext)
 
        return (
-        <div className='bg-gradient-to-b from-dark-teal from-25%  to-dark-teal-2 to-99% w-screen h-screen flex items-center justify-center' >
+        <div className='bg-gradient-to-b from-dark-teal from-25%  to-dark-teal-2 to-99% w-screen h-screen flex flex-col items-center justify-center' >
             <div className='w-[400px]  bg-white border border-gray-200 shadow-xl px-10 py-16 rounded-2xl text-center flex flex-col items-center gap-7'>
                 <div>
                     <img src='https://krayo-assets.s3.ap-south-1.amazonaws.com/krayo-logo-with-better-everyday-800x290.svg' className='w-2/3 mx-auto' />
@@ -43,7 +43,7 @@ const LoginPage = () => {
                     }}
                 />
             </div>
-            <p>hello tsting</p>
+            <p className='mt-1.5'>*For demonstration purposes only.</p>
         </div>
     )
 }
