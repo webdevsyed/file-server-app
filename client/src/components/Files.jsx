@@ -32,9 +32,10 @@ const Files = ({ files, getFiles }) => {
     const handleDownload = async (event) => {
         event.preventDefault();
         try {
+            let jwt = localStorage.getItem("token")
             const serverName = event.target.parentNode.id
             const response = await toast.promise(axios.get("http://localhost:8080/file/download", {
-                withCredentials: true,
+                headers: {Authorization: `Bearer ${jwt}`},
                 responseType: 'blob',
                 params: {
                     serverName: serverName
@@ -48,7 +49,7 @@ const Files = ({ files, getFiles }) => {
                     duration: 5000,
                 }
             })
-            console.log(response)
+            // console.log(response)
             const name = response.config.params.serverName.split('__')[1]
             const blobUrl = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
@@ -116,8 +117,9 @@ const Files = ({ files, getFiles }) => {
         event.preventDefault();
         // console.log(event.target.parentNode.id)
         try {
+            let jwt = localStorage.getItem("token")
             const response = await toast.promise(axios.delete("http://localhost:8080/file/delete", {
-                withCredentials: true,
+                headers: {Authorization: `Bearer ${jwt}`},
                 params: {
                     serverName: event.target.parentNode.id
                 }

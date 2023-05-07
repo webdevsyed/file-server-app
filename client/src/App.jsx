@@ -11,18 +11,19 @@ function App() {
 		console.log("check login!")
 		const checkLogin = async () => {
 			try {
-				const response = await axios.post("http://localhost:8080/auth/login", {}, { withCredentials: true })
+				let jwt = localStorage.getItem("token")
+				if (!jwt) {
+					return console.log("User not Logged in!")
+				}
+				const response = await axios.post("http://localhost:8080/auth/login", {},
+					{
+						headers: { Authorization: `Bearer ${jwt}` }
+					})
 
 				// console.log(response)
-				if (!response.data.userData) {
-					setUserData()
-					throw "Session Expired"
-				}
-				else {
-					setUserData(response.data.userData)
-				}
-			} catch (error) { 
-				console.log(error, ": Login Failed!")
+				setUserData(response.data.userData)
+			} catch (error) {
+				console.log(error, "Login Failed!")
 			}
 		}
 		checkLogin()

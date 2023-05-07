@@ -1,24 +1,29 @@
 import axios from 'axios'
-import {useContext} from 'react'
-import { TfiSearch } from 'react-icons/tfi';
+import { useContext } from 'react'
+// import { TfiSearch } from 'react-icons/tfi';
 import Avatar from './Avatar';
 import UserContext from '../utils/UserContext';
 
 const NavBar = () => {
 
-const {setUserData} = useContext(UserContext)
+  const { setUserData } = useContext(UserContext)
 
   const handleLogout = (e) => {
     e.preventDefault();
-    const logout = async () => {
-      const response = await axios.post("http://localhost:8080/auth/logout",{}, { withCredentials: true })
-      
-      if (response.status == 200) {
-        setUserData()
-        console.log("Logged Out!")
-      }
-    }
-    logout()
+    setUserData()
+    localStorage.setItem("token","")
+    console.log("Logged Out!")
+
+
+    // const logout = async () => {
+    // const response = await axios.post("http://localhost:8080/auth/logout",{}, { withCredentials: true })
+
+    //   if (response.status == 200) {
+    //     setUserData()
+    //     console.log("Logged Out!")
+    //   }
+    // }
+    // logout()
   }
 
   return (
@@ -37,7 +42,7 @@ const {setUserData} = useContext(UserContext)
           Logout
         </button>
 
-        <Avatar/>
+        <Avatar />
 
       </div>
     </div>

@@ -20,8 +20,10 @@ const FilesSection = () => {
   }, [])
 
   const getFiles = async () => {
+
+    let jwt = localStorage.getItem("token")
     const response = await axios.get("http://localhost:8080/file/list", {
-      withCredentials: true
+      headers: { Authorization: `Bearer ${jwt}` },
     });
     // console.log("get files response")
     // console.log(response)
@@ -37,28 +39,31 @@ const FilesSection = () => {
   const handleUpload = async (event) => {
     event.preventDefault();
     // console.log("handle Upload")
-    try {
+    // console.log(selectedFile)
+    if (!selectedFile) {
+      console.log("Select File!")
+    }
+    else {
       const data = new FormData()
       data.append('file', selectedFile)
       data.append('filename', "test")
-
-      if (selectedFile) {
+      try {
+        let jwt = localStorage.getItem("token")
         const response = await toast.promise(axios.post("http://localhost:8080/file/upload", data, {
-          withCredentials: true,
+          headers: { Authorization: `Bearer ${jwt}` },
           "Content-Type": "multipart/form-data"
         }), {
           loading: "Uploading file...",
           error: "Error! File Could not be Uploaded.",
           success: "File Uploaded Successfully."
         });
-        getFiles()
         // console.log(response);
+        document.getElementById('file-input').value = ""
+        getFiles()
+      } catch (error) {
+        console.log("File could not be uploaded")
       }
-      else { throw error }
-    } catch (error) {
-      console.log("Please select file")
     }
-    document.getElementById('file-input').value = ""
   }
 
   return (
